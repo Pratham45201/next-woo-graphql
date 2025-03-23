@@ -24,3 +24,38 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer base {
+  /* screen-mobile */
+  h1 {
+    font-size: 30px;
+  }
+
+  /* screen-sm */
+  @media (min-width: 640px) {
+    h1 {
+      font-size: 30px;
+    }
+  }
+
+  /* screen-md */
+  @media (min-width: 768px) {
+    h1 {
+      font-size: 40px;
+    }
+  }
+
+  /* screen-lg */
+  @media (min-width: 1024px) {
+    h1 {
+      font-size: 40px;
+    }
+  }
+
+  /* screen-xl */
+  @media (min-width: 1280px) {
+    h1 {
+      font-size: 40px;
+    }
+  }
+}
