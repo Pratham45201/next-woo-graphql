@@ -1,5 +1,3 @@
-import { useQuery } from "@apollo/client";
-import { GetSingleProduct } from "@/graphql/graphql";
 import SingleProduct from "@/components/SingleProduct";
 
 const Product = async ({ params }) => {

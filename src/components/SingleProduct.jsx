@@ -1,6 +1,7 @@
 "use client";
 import { useQuery } from "@apollo/client";
 import { GetSingleProduct } from "@/graphql/graphql";
+import Image from "next/image";
 
 const SingleProduct = ({ id }) => {
   const { loading, error, data, fetchMore } = useQuery(GetSingleProduct, {
@@ -12,13 +13,17 @@ const SingleProduct = ({ id }) => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   const product = data?.product;
-  console.log(product);
   return (
     <div className="container mx-auto p-4">
       <h1>
         <span className="text-red-500">Product Name:</span> {product.name}
       </h1>
-      <img className="mt-2" src={product.featuredImage?.node?.mediaItemUrl} />
+      <Image
+        width={300}
+        height={300}
+        className="mt-2 w-auto h-auto"
+        src={product.featuredImage?.node?.mediaItemUrl}
+      />
       <p className="mt-2">
         <span className="text-red-500">Short Description:</span>{" "}
         {product.shortDescription}

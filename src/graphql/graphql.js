@@ -6,6 +6,7 @@ export const GetAllProducts = gql`
     $after: String = ""
     $field: ProductsOrderByEnum = DATE
     $order: OrderEnum = ASC
+    $search: String = ""
     $maxPrice: Float = 1000000
     $minPrice: Float = 0
   ) {
@@ -16,6 +17,7 @@ export const GetAllProducts = gql`
         orderby: { field: $field, order: $order }
         maxPrice: $maxPrice
         minPrice: $minPrice
+        search: $search
       }
     ) {
       nodes {
@@ -25,6 +27,7 @@ export const GetAllProducts = gql`
         type
         __typename
         image {
+          altText
           sourceUrl
         }
         ... on SimpleProduct {
@@ -81,11 +84,42 @@ export const GetSingleProduct = gql`
       ... on SimpleProduct {
         price
         salePrice(format: FORMATTED)
+        databaseId
       }
       ... on VariableProduct {
         price
         salePrice(format: FORMATTED)
+        databaseId
       }
+    }
+  }
+`;
+
+export const RegisterUser = gql`
+  mutation Signup(
+    $firstName: String = ""
+    $lastName: String = ""
+    $email: String = ""
+    $password: String = ""
+  ) {
+    registerCustomer(
+      input: {
+        firstName: $firstName
+        lastName: $lastName
+        password: $password
+        email: $email
+      }
+    ) {
+      authToken
+      refreshToken
+    }
+  }
+`;
+
+export const LoginUser = gql`
+  mutation LoginUser($password: String = "", $username: String = "") {
+    login(input: { password: $password, username: $username }) {
+      authToken
     }
   }
 `;

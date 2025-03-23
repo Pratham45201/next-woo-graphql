@@ -3,19 +3,21 @@ import Link from "next/link";
 import Image from "next/image";
 
 const ProductListing = ({ products }) => {
-  console.log(products);
   return (
     <div>
-      <h2>Shop</h2>
       <ul>
         {products.map((product) => (
-          <li key={product.id} className="mt-5">
+          <li
+            key={product.id}
+            className="mt-5 w-fit border-1 p-2 border-red-500"
+          >
             <Link href={`/product/${product.id}`}>
               <h3>{product.name}</h3>
               <Image
                 width={300}
                 height={300}
-                className="my-2"
+                priority={true}
+                className="w-auto h-auto my-2"
                 src={product.image.sourceUrl}
                 alt={product.image.altText}
               />
