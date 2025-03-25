@@ -55,7 +55,7 @@ export const GetAllProducts = gql`
 
 export const GetSingleProduct = gql`
   query GetSingleProduct($id: ID = "") {
-    product(id: $id) {
+    product(id: $id, idType: DATABASE_ID) {
       id
       name
       averageRating
@@ -100,6 +100,7 @@ export const RegisterUser = gql`
     $firstName: String = ""
     $lastName: String = ""
     $email: String = ""
+    $username: String = ""
     $password: String = ""
   ) {
     registerCustomer(
@@ -108,6 +109,7 @@ export const RegisterUser = gql`
         lastName: $lastName
         password: $password
         email: $email
+        username: $username
       }
     ) {
       authToken
@@ -120,6 +122,63 @@ export const LoginUser = gql`
   mutation LoginUser($password: String = "", $username: String = "") {
     login(input: { password: $password, username: $username }) {
       authToken
+    }
+  }
+`;
+
+export const AddToCart = gql`
+  mutation AddToCart($productId: Int = 73, $quantity: Int = 1) {
+    addToCart(input: { productId: $productId, quantity: $quantity }) {
+      cartItem {
+        total
+      }
+    }
+  }
+`;
+
+export const GetCart = gql`
+  query GetCart {
+    cart {
+      total(format: FORMATTED)
+      subtotalTax(format: FORMATTED)
+      shippingTotal(format: FORMATTED)
+      shippingTax(format: FORMATTED)
+      subtotal(format: FORMATTED)
+      totalTax(format: FORMATTED)
+      totalTaxes {
+        amount(format: FORMATTED)
+        label
+      }
+      contents {
+        nodes {
+          quantity
+          product {
+            node {
+              ... on SimpleProduct {
+                regularPrice(format: FORMATTED)
+                salePrice(format: FORMATTED)
+              }
+              name
+              ... on VariableProduct {
+                regularPrice(format: FORMATTED)
+                salePrice(format: FORMATTED)
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GetWishList = gql`
+  query GetWishList {
+    getWishList {
+      products {
+        name
+        priceHtml
+        databaseId
+      }
     }
   }
 `;

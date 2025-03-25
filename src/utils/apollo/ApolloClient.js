@@ -47,7 +47,6 @@ export const middleware = new ApolloLink((operation, forward) => {
 
   if (sessionData && sessionData.token && sessionData.createdTime) {
     const { token, createdTime } = sessionData;
-
     // Check if the token is older than 7 days
     if (Date.now() - createdTime > SEVEN_DAYS) {
       // If it is, delete it
@@ -56,7 +55,6 @@ export const middleware = new ApolloLink((operation, forward) => {
         localStorage.setItem("woocommerce-cart", JSON.stringify({}));
       }
     } else {
-      // If it's not, use the token
       operation.setContext(() => ({
         headers: {
           "woocommerce-session": `Session ${token}`,
@@ -84,7 +82,6 @@ export const afterware = new ApolloLink((operation, forward) =>
     } = context;
 
     const session = headers.get("woocommerce-session");
-
     if (session && isBrowser) {
       if ("false" === session) {
         // Remove session data if session destroyed.
