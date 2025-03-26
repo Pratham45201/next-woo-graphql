@@ -122,6 +122,7 @@ export const LoginUser = gql`
   mutation LoginUser($password: String = "", $username: String = "") {
     login(input: { password: $password, username: $username }) {
       authToken
+      refreshToken
     }
   }
 `;
@@ -179,6 +180,23 @@ export const GetWishList = gql`
         priceHtml
         databaseId
       }
+    }
+  }
+`;
+
+export const AddToWishList = `
+  mutation AddToWishlist($productId: Int = 10) {
+    addToWishlist(input: { productId: $productId }) {
+      error
+      added
+    }
+  }
+`;
+
+export const RefreshAccessToken = `
+  mutation RefreshAccessToken($jwtRefreshToken: String = "") {
+    refreshJwtAuthToken(input: {jwtRefreshToken: $jwtRefreshToken}) {
+      authToken
     }
   }
 `;

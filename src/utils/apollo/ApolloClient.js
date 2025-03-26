@@ -10,9 +10,12 @@ import {
   from,
 } from "@apollo/client";
 import { relayStylePagination } from "@apollo/client/utilities";
+import { RefreshAccessToken } from "@/graphql/graphql";
 
 // 7 days in milliseconds
 const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
+
+const ACCESS_TOKEN_TIMEOUT = process.env.NEXT_ACCESS_TOKEN_EXPIRY;
 
 // Type policy for pagination and caching
 const typePolicies = {
@@ -62,6 +65,36 @@ export const middleware = new ApolloLink((operation, forward) => {
       }));
     }
   }
+
+  /**
+   * Update the access token if expired
+   */
+  // if (localStorage.getItem("authTokens") !== null) {
+  //   const { createdTime: tokenCreationTime, accessToken, refreshToken } = JSON.parse(
+  //     localStorage.getItem("authTokens")
+  //   );
+  //   console.log(refreshToken);
+  //   const fetchNewAccessToken = async () => {
+  //     console.log("called");
+  //     await fetch(`${process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT}`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         // Authorization: `Bearer ${accessToken}`,
+  //       },
+  //       body: JSON.stringify({
+  //         query: RefreshAccessToken,
+  //         variables: { refreshToken },
+  //       }),
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => console.log(data));
+  //   };
+  //   // if (
+  //   //   Date.now() - tokenCreationTime > ACCESS_TOKEN_TIMEOUT
+  //   // )
+  //   fetchNewAccessToken();
+  // }
 
   return forward(operation);
 });

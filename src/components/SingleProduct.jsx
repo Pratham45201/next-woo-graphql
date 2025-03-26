@@ -4,14 +4,6 @@ import { GetSingleProduct } from "@/graphql/graphql";
 import Image from "next/image";
 import { AddToCart, AddToWishList } from "@/graphql/graphql";
 
-const ADD_TO_WISHLIST = `
-  mutation AddToWishlist($productId: Int = 10) {
-    addToWishlist(input: { productId: $productId }) {
-      error
-      added
-    }
-  }
-`;
 
 const SingleProduct = ({ id }) => {
   const { loading, error, data, fetchMore } = useQuery(GetSingleProduct, {
@@ -45,7 +37,7 @@ const SingleProduct = ({ id }) => {
           "woocommerce-session":`Session ${JSON.parse(localStorage.getItem("woo-session")).token}`
         },
         body: JSON.stringify({
-          query: ADD_TO_WISHLIST,
+          query: AddToWishList,
           variables: { productId },
         }),
       });

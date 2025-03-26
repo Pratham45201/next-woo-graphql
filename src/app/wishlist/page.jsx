@@ -1,6 +1,4 @@
 "use client";
-import { useQuery } from "@apollo/client";
-import { GetWishList } from "@/graphql/graphql";
 import { useState, useEffect } from "react";
 
 const GET_WISHLIST = `
